@@ -44,7 +44,7 @@
             handler.call( this, event, frame );
         };
 
-        return this.mousemove( eventData, shouldThrottle && mm.throttle(proxyHandler) || proxyHandler );
+        return this.mousemove( eventData, shouldThrottle && mm.throttle(proxyHandler, mm.THROTTLE_WAIT) || proxyHandler );
       };
 
       /**
