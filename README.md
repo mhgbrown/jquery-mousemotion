@@ -4,9 +4,20 @@ JQuery MouseMotion adds a event function (mousemotion) whose handler receives mo
 [Check it out on JSFiddle](http://jsfiddle.net/discomfort/GyxmD)
 
 ## Usage
+**.mousemotion( [eventData], handler( eventObject, frame ), [shouldThrottle], [throttleWait] )**
+
+**eventData** A map of data that will be passed to the event handler.
+
+**handler(eventObject, frame)** A function to execute each time the event is triggered.
+
+**shouldThrottle** A boolean that indicates if the handler should not be called more than once per *throttleWait* milliseconds.  Defaults to true.
+
+**throttleWait** A number that specifies that number of milliseconds that must pass before each invocation of the handler function.  Defaults to 100 milliseconds.
+
+### Example
 
 	$('#something').mousemotion( function( event, frame ) {
-		// do cool stuff!
+		// do something about it!
 		// see below for information about frame
 	});
 
@@ -15,7 +26,7 @@ A Frame has the following properties:
 
 *  **x**: The x component of the mouse's position
 *  **y**: The y component of the mouse's position
-*  **t**: The time at which this frame was captured
+*  **t**: The event timestamp in milliseconds
 *  **dx**: The x component difference between this frame and the last one
 *  **dy**: The y component difference between this frame and the last one
 *  **dt**: The time difference in ms between this frame and the last one

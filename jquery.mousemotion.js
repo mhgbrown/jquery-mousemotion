@@ -11,10 +11,8 @@
    **/
   $.MouseMotion = new function() {
 
-      var mm = this;
-
       /* The number of miliseconds that must pass between executions of the mousemotion handler */
-      this.THROTTLE_WAIT = 100;
+      var THROTTLE_DEAFULT_WAIT = 100;
 
       /**
        * Attach a mousemove listener to the set of matched elements, which receives both an
@@ -25,7 +23,7 @@
        * @param {boolean} If the handler function should be called only after $.MouseMotion.THROTTLE_WAIT miliseconds have elapsed.
        * @return {array} The set of matched elements.
        **/
-      this.mousemotion = function( eventData, handler, shouldThrottle ) {
+      this.mousemotion = function( eventData, handler, shouldThrottle, throttleWait ) {
         var lastFrame, proxyHandler;
 
         if( handler == null ) {
@@ -38,13 +36,20 @@
           shouldThrottle = true;
         }
 
+        // set default throttle wait
+        if( typeof throttleWait === 'undefined' ) {
+          throttleWait = THROTTLE_DEAFULT_WAIT;
+        }
+
         proxyHandler = function( event ) {
-            var frame = new mm.Frame( event.pageX, event.pageY, +new Date(), lastFrame );
+            var frame = new Frame( event.pageX, event.pageY, event.timeStamp, lastFrame );
             lastFrame = frame;
             handler.call( this, event, frame );
         };
 
-        return this.mousemove( eventData, shouldThrottle && mm.throttle(proxyHandler, mm.THROTTLE_WAIT) || proxyHandler );
+        proxyHandler = shouldThrottle && throttle( proxyHandler, throttleWait ) || proxyHandler;
+
+        return this.mousemove( eventData, proxyHandler );
       };
 
       /**
@@ -54,7 +59,7 @@
        * @param {function} fun The function to be throttled
        * @param {number} The number of miliseconds that must pass before the next execution
        **/
-      this.throttle = function( fun, wait ) {
+      function throttle( fun, wait ) {
           var lastCalledAt = 0;
 
           return function() {
@@ -77,7 +82,7 @@
        * @param {Frame} lastFrame The previous frame.  This is required to calculate
        *   deltas, displacement, direction, speed and acceleration.
        **/
-      this.Frame = function( x, y, t, lastFrame ) {
+      function Frame( x, y, t, lastFrame ) {
         this.x = x;
         this.y = y;
         this.t = t;
@@ -93,7 +98,7 @@
         this.displacement = Math.sqrt( Math.pow( this.dx, 2 ) + Math.pow( this.dy, 2 ) );
         // direction is given as the number of radians from the positive x axis, whose origin
         // lies on (x, y)
-        this.direction = mm.atan2( this.dy, -this.dx );
+        this.direction = atan2( this.dy, -this.dx );
         // speed is in pixels/ms
         this.speed = this.displacement / this.dt;
         // pixels/ms^2
@@ -108,9 +113,9 @@
        * @param {number} x A number representing the x coordinate
        * @return {number} A number between 0 and 2PI, or NaN if the value(s) are empty
        **/
-      this.atan2 = function( y, x ) {
+      function atan2( y, x ) {
         return Math.PI + Math.atan2( y, x );
-      };
+      }
   };
 
   $.fn.mousemotion = $.MouseMotion.mousemotion;
