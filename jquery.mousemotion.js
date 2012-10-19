@@ -18,9 +18,10 @@
        * Attach a mousemove listener to the set of matched elements, which receives both an
        * Event and Frame object.  The Frame object contains information about the mouse's motion.
        *
-       * @param {object} eventData
-       * @param {function(eventObject, frame)} handler The function to be called when the mousemove event is fired.
-       * @param {boolean} If the handler function should be called only after $.MouseMotion.THROTTLE_WAIT miliseconds have elapsed.
+       * @param {object} eventData A map of data that will be passed to the event handler.
+       * @param {function(eventObject, frame)} handler A function to execute each time the event is triggered.
+       * @param {boolean} shouldThrottle A boolean that indicates if the handler should not be called more than once per throttleWait milliseconds.
+       * @param {number} throttleWait A number that specifies that number of milliseconds that must pass before each invocation of the handler function.
        * @return {array} The set of matched elements.
        **/
       this.mousemotion = function( eventData, handler, shouldThrottle, throttleWait ) {
@@ -57,7 +58,7 @@
        *
        * @see http://ryhan.org/post/33374611308/limiting-function-calls
        * @param {function} fun The function to be throttled
-       * @param {number} The number of miliseconds that must pass before the next execution
+       * @param {number} wait The number of miliseconds that must pass before the next execution
        **/
       function throttle( fun, wait ) {
           var lastCalledAt = 0;
