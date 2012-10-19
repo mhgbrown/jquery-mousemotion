@@ -1,5 +1,5 @@
-# JQuery MouseMotion
-JQuery MouseMotion adds a event function (mousemotion) whose handler receives more information about the motion of the mouse.  The mousemotion function wraps the mousemove function.
+# jQuery MouseMotion
+jQuery MouseMotion adds a event function (mousemotion) whose handler receives more information about the motion of the mouse.  The mousemotion function wraps the mousemove function.
 
 [Check it out on JSFiddle](http://jsfiddle.net/discomfort/GyxmD)
 
