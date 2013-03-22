@@ -9,7 +9,7 @@
   /**
    * The MouseMotion namespace contains data related to the mousemotion event function.
    **/
-  $.MouseMotion = new function() {
+  var MouseMotion = function() {
 
       /* The number of miliseconds that must pass between executions of the mousemotion handler */
       var THROTTLE_DEAFULT_WAIT = 100;
@@ -104,7 +104,7 @@
         this.speed = this.displacement / this.dt;
         // pixels/ms^2
         this.acceleration = ( this.speed - lastFrame.speed ) / this.dt;
-      };
+      }
 
       /**
        * This atan2 function returns the arctangent of the quotient of its arguments,
@@ -119,6 +119,7 @@
       }
   };
 
+  $.MouseMotion = new MouseMotion();
   $.fn.mousemotion = $.MouseMotion.mousemotion;
 
 })( jQuery );
